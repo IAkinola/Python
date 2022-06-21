@@ -1,7 +1,7 @@
 import random
 
 
-class bColors:
+class bcolors:
     HEADER = '\003[95m'
     OKBLUE = '\003[94m'
     OKGREEN = '\003[92m'
@@ -22,7 +22,7 @@ class Person:
         self.atkh = atk + 10
         self.df = df
         self.magic = magic
-        self.actions = ["Attack, Magic"]
+        self.actions = ["Attack", "Magic"]
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)
@@ -55,15 +55,15 @@ class Person:
         return self.magic[i]["cost"]
 
     def choose_action(self):
-        print("Actions")
         i = 1
+        print(bcolors.OKBLUE + bcolors.BOLD + "Actions" + bcolors.ENDC)
         for item in self.actions:
             print(str(i) + ":", item)
             i += 1
 
     def choose_magic(self):
-        print("Magic")
         i = 1
+        print(bcolors.OKBLUE + bcolors.BOLD + "Magic" + bcolors.ENDC)
         for spell in self.magic:
-            print(str(i) + ":", spell["name"], "(cost:", str(spell["mp"]) + ")")
+            print(str(i) + ":", spell["name"], "(cost:", str(spell["cost"]) + ")")
             i += 1
