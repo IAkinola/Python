@@ -27,10 +27,13 @@ while running:
     choice = input("Choose action:")
     index = int(choice) - 1
 
+# Attacking with normal Attacks
     if index == 0:
         dmg = player.generate_damage()
         enemy.take_damage(dmg)
         print("You attacked for", dmg, "points of damage.")
+
+# Attacking with magic
     elif index == 1:
         player.choose_magic()
         magic_choice = int(input("Choose magic:")) - 1
@@ -43,10 +46,14 @@ while running:
         if spell.cost > current_mp:
             print("\nNot enough MP")
             continue
-            
         player.reduce_mp(spell.cost)
-        enemy.take_damage(magic_dmg)
-        print("\n" + spell.name + " deals", str(magic_dmg), "points of damage")
+
+        if spell.type == "white":
+            player.heal(magic_dmg)
+            print("\n" + spell.name + " heals for", str(magic_dmg), "HP.")
+        elif spell.type == "black":
+            enemy.take_damage(magic_dmg)
+            print("\n" + spell.name + " deals", str(magic_dmg), "points of damage")
 
     enemy_choice = 1
     enemy_dmg = enemy.generate_damage()
