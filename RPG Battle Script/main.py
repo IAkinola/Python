@@ -22,11 +22,17 @@ hielixer = Item("MegaElixer", "elixer", "Fully restores party's HP/MP", 9999)
 grenade = Item("Grenade", "attack", "Deals 500 damage", 500)
 
 player_spells = [fire, thunder, blizzard, meteor, cure, cura]
-player_items = [potion, hipotion, superpotion, elixer, hielixer, grenade]
+player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity": 5},
+                {"item": superpotion, "quantity": 5},{"item": elixer, "quantity": 5},
+                {"item": hielixer, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
 # Instantiate Characters
-player = Person(460, 65, 60, 34, player_spells, player_items)
-enemy = Person(1200, 65, 45, 25, [], [])
+player1 = Person("Valos:", 460, 65, 60, 34, player_spells, player_items)
+player2 = Person("Rexia:", 460, 65, 60, 34, player_spells, player_items)
+player3 = Person("FCG:", 460, 65, 60, 34, player_spells, player_items)
+enemy = Person("Magnus", 1200, 65, 45, 25, [], [])
+
+players = [player1, player2, player3]
 
 running = True
 i = 0
@@ -35,68 +41,90 @@ print("AN ENEMY ATTACKS!")
 
 while running:
     print("======================================")
-    player.choose_action()
-    choice = input("Choose Action:")
-    index = int(choice) - 1
+    print("NAME             HP                               MP")
 
-# Attacking with normal Attacks
-    if index == 0:
-        dmg = player.generate_damage()
-        enemy.take_damage(dmg)
-        print("You attacked for", dmg, "points of damage.")
+    for player in players:
+        player.get_stats()
 
-# Attacking with magic
-    elif index == 1:
-        player.choose_magic()
-        magic_choice = int(input("Choose Magic:")) - 1
+    print("\n")
 
-        # To go up the menu
-        if magic_choice == -1:
-            continue
+    for player in players:
 
-        spell = player.magic[magic_choice]
-        magic_dmg = spell.generate_spell_damage()
+        player.choose_action()
+        choice = input("Choose Action:")
+        index = int(choice) - 1
 
-        current_mp = player.get_mp()
+    # Attacking with normal Attacks
+        if index == 0:
+            dmg = player.generate_damage()
+            enemy.take_damage(dmg)
+            print("You attacked for", dmg, "points of damage.")
 
-        if spell.cost > current_mp:
-            print("\nNot enough MP")
-            continue
-        player.reduce_mp(spell.cost)
+    # Attacking with magic
+        elif index == 1:
+            player.choose_magic()
+            magic_choice = int(input("Choose Magic:")) - 1
 
-        if spell.type == "white":
-            player.heal(magic_dmg)
-            print("\n" + spell.name + " heals for", str(magic_dmg), "HP.")
-        elif spell.type == "black":
-            enemy.take_damage(magic_dmg)
-            print("\n" + spell.name + " deals", str(magic_dmg), "points of damage")
+            # To go up the menu
+            if magic_choice == -1:
+                continue
+
+            spell = player.magic[magic_choice]
+            magic_dmg = spell.generate_spell_damage()
+
+            current_mp = player.get_mp()
+
+            if spell.cost > current_mp:
+                print("\nNot enough MP")
+                continue
+            player.reduce_mp(spell.cost)
+
+            if spell.type == "white":
+                player.heal(magic_dmg)
+                print("\n" + spell.name + " heals for", str(magic_dmg), "HP.")
+            elif spell.type == "black":
+                enemy.take_damage(magic_dmg)
+                print("\n" + spell.name + " deals", str(magic_dmg), "points of damage")
 
 
-# Using Items
-    elif index == 2:
-        player.choose_item()
-        item_choice = int(input("Choose Item: ")) - 1
+    # Using Items
+        elif index == 2:
+            player.choose_item()
+            item_choice = int(input("Choose Item: ")) - 1
 
-        # To go up the menu
-        if item_choice == -1:
-            continue
+            # To go up the menu
+            if item_choice == -1:
+                continue
 
-        item = player.items[item_choice]
+            item = player.items[item_choice] ["item"]
+            player.items[item_choice]["quantity"] -= 1
 
-        if item.effect == "potion":
-            player.heal(item.prop)
-            print("\n" + item.name + " heals for", str(item.effect), "HP.")
+            if player.items[item_choice]["quantity"]:
+                print("\n" + "None left...")
+                continue
+
+            if item.effect == "potion":
+                player.heal(item.prop)
+                print("\n" + item.name + " heals for", str(item.effect), "HP.")
+            elif item.effect == "elixer":
+                player.hp = player.maxhp
+                player.mp = player.maxmp
+                print("\n" + item.name + " fully restores HP/MP")
+            elif item.type == "attack":
+                enemy.take_damage(item.prop)
+                print("\n" + item.name + " deals", str(item.prop), "points of damage")
 
     enemy_choice = 1
+
     enemy_dmg = enemy.generate_damage()
-    player.take_damage(enemy_dmg)
+    player1.take_damage(enemy_dmg)
     print("Enemy attacks for", enemy_dmg, "points of damage.")
 
     print("________________________________")
     print("Enemy HP:" + str(enemy.get_hp()) + "/" + str(enemy.get_max_hp()) + "\n")
 
-    print("Your HP:" + str(player.get_hp()) + "/" + str(player.get_max_hp()))
-    print("Your MP:" + str(player.get_mp()) + "/" + str(player.get_max_mp()) + "\n")
+ #   print("Your HP:" + str(player.get_hp()) + "/" + str(player.get_max_hp()))
+#    print("Your MP:" + str(player.get_mp()) + "/" + str(player.get_max_mp()) + "\n")
 
     if enemy.get_hp() == 0:
         print("You Win!")
