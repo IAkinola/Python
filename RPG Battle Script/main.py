@@ -3,40 +3,41 @@ from classes.magic import Spell
 from classes.inventory import Item
 
 # Create Black Magic
-fire = Spell("Fire", 10, 100, "black")
-thunder = Spell("Thunder", 10, 100, "black")
-blizzard = Spell("Blizzard", 10, 100, "black")
-meteor = Spell("Meteor", 20, 200, "black")
-quake = Spell("Quake", 12, 120, "black")
+fire = Spell("Fire", 25, 600, "black")
+thunder = Spell("Thunder", 25, 600, "black")
+blizzard = Spell("Blizzard", 25, 600, "black")
+meteor = Spell("Meteor", 40, 1200, "black")
+quake = Spell("Quake", 12, 140, "black")
 
 # Create White Magic
-cure = Spell("Cure", 12, 120, "white")
-cura = Spell("Cura", 18, 200, "white")
+cure = Spell("Cure", 25, 620, "white")
+cura = Spell("Cura", 32, 1500, "white")
 
 # Creating Items
 potion = Item("Potion", "potion", "Heals 50 HP", 50)
 hipotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
-superpotion = Item("Super Potion", "potion", "Heals 500 HP", 500)
+superpotion = Item("Super Potion", "potion", "Heals 500 HP", 1000)
 elixer = Item("Elixer", "elixer", "Fully restores HP/MP of one party member", 9999)
 hielixer = Item("MegaElixer", "elixer", "Fully restores party's HP/MP", 9999)
 grenade = Item("Grenade", "attack", "Deals 500 damage", 500)
 
 player_spells = [fire, thunder, blizzard, meteor, cure, cura]
 player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity": 5},
-                {"item": superpotion, "quantity": 5},{"item": elixer, "quantity": 5},
+                {"item": superpotion, "quantity": 5}, {"item": elixer, "quantity": 5},
                 {"item": hielixer, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
 # Instantiate Characters
-player1 = Person("Valos:", 460, 65, 60, 34, player_spells, player_items)
-player2 = Person("Rexia:", 460, 65, 60, 34, player_spells, player_items)
-player3 = Person("FCG:", 460, 65, 60, 34, player_spells, player_items)
-enemy = Person("Magnus", 1200, 65, 45, 25, [], [])
+player1 = Person("Valos:", 3260, 132, 300, 34, player_spells, player_items)
+player2 = Person("Rexia:", 4160, 188, 311, 34, player_spells, player_items)
+player3 = Person("Felix:", 3889, 174, 288, 34, player_spells, player_items)
+enemy = Person("Magnus", 1200, 701, 525, 25, [], [])
 
 players = [player1, player2, player3]
 
 running = True
 i = 0
 
+print("\n")
 print("AN ENEMY ATTACKS!")
 
 while running:
@@ -87,7 +88,7 @@ while running:
                 print("\n" + spell.name + " deals", str(magic_dmg), "points of damage")
 
 
-    # Using Items
+# Using Items
         elif index == 2:
             player.choose_item()
             item_choice = int(input("Choose Item: ")) - 1
@@ -96,7 +97,7 @@ while running:
             if item_choice == -1:
                 continue
 
-            item = player.items[item_choice] ["item"]
+            item = player.items[item_choice]["item"]
             player.items[item_choice]["quantity"] -= 1
 
             if player.items[item_choice]["quantity"]:
@@ -123,8 +124,8 @@ while running:
     print("________________________________")
     print("Enemy HP:" + str(enemy.get_hp()) + "/" + str(enemy.get_max_hp()) + "\n")
 
- #   print("Your HP:" + str(player.get_hp()) + "/" + str(player.get_max_hp()))
-#    print("Your MP:" + str(player.get_mp()) + "/" + str(player.get_max_mp()) + "\n")
+#   print("Your HP:" + str(player.get_hp()) + "/" + str(player.get_max_hp()))
+#   print("Your MP:" + str(player.get_mp()) + "/" + str(player.get_max_mp()) + "\n")
 
     if enemy.get_hp() == 0:
         print("You Win!")
