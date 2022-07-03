@@ -60,7 +60,8 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("\n" + "ACTIONS:")
+        print("\n" + self.name)
+        print("ACTIONS:")
         for item in self.actions:
             print("    " + str(i) + ".", item)
             i += 1
@@ -103,6 +104,34 @@ class Person:
         while len(mp_bar) < 10:
             mp_bar += " "
 
-        print("                    _________________________            __________")
-        print(self.name + "    " + str(self.hp) + "/" + str(self.maxhp) + "|" + hp_bar + "|   " +
-              str(self.mp) + "/" + str(self.maxmp) + "|" + mp_bar + "|")
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        current_hp = ""
+
+        # Dealing with White Spaces in the HP UI
+        if len(hp_string) < 9:
+            decreased = 9 - len(hp_string)
+
+            while decreased > 0:
+                current_hp += " "
+                decreased -= 1
+
+            current_hp += hp_string
+        else:
+            current_hp = hp_string
+
+        mp_string = str(self.mp) + "/" + str(self.maxmp)
+        current_mp = ""
+
+        if len(mp_string) < 7:
+            decreased = 7 - len(mp_string)
+
+            while decreased > 0:
+                current_mp += " "
+                decreased -= 1
+
+            current_mp += mp_string
+        else:
+            current_mp = mp_string
+
+        print("                   _________________________            __________")
+        print(self.name + "    " + current_hp + "|" + hp_bar + "|   " + current_mp + "|" + mp_bar + "|")

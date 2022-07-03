@@ -27,9 +27,9 @@ player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity":
                 {"item": hielixer, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
 # Instantiate Characters
-player1 = Person("Valos:", 3260, 132, 300, 34, player_spells, player_items)
-player2 = Person("Rexia:", 4160, 188, 311, 34, player_spells, player_items)
-player3 = Person("Felix:", 3889, 174, 288, 34, player_spells, player_items)
+player1 = Person("Valos", 3260, 132, 300, 34, player_spells, player_items)
+player2 = Person("Rexia", 4160, 188, 311, 34, player_spells, player_items)
+player3 = Person("Felix", 3889, 174, 288, 34, player_spells, player_items)
 enemy = Person("Magnus", 1200, 701, 525, 25, [], [])
 
 players = [player1, player2, player3]
@@ -42,7 +42,7 @@ print("AN ENEMY ATTACKS!")
 
 while running:
     print("======================================")
-    print("NAME             HP                               MP")
+    print("NAME               HP                                   MP")
 
     for player in players:
         player.get_stats()
@@ -59,7 +59,7 @@ while running:
         if index == 0:
             dmg = player.generate_damage()
             enemy.take_damage(dmg)
-            print("You attacked for", dmg, "points of damage.")
+            print(player.name + " attacked for", dmg, "points of damage.")
 
     # Attacking with magic
         elif index == 1:
@@ -76,7 +76,7 @@ while running:
             current_mp = player.get_mp()
 
             if spell.cost > current_mp:
-                print("\nNot enough MP")
+                print("\n" + "Not enough MP")
                 continue
             player.reduce_mp(spell.cost)
 
