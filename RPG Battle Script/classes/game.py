@@ -2,6 +2,7 @@
 
 import random
 
+
 class bcolors:
     HEADER = '\003[95m'
     OKBLUE = '\003[94m'
@@ -51,10 +52,13 @@ class Person:
 
     def get_hp(self):
         return self.hp
+
     def get_max_hp(self):
         return self.maxhp
+
     def get_mp(self):
         return self.mp
+
     def get_max_mp(self):
         return self.maxmp
 
@@ -79,6 +83,35 @@ class Person:
         for item in self.items:
             print("    " + str(i) + ".", item["item"].name + ":", item["item"].description, " (x5)")
             i += 1
+
+    # Enemy HP Bar
+    def get_enemy_stats(self):
+        hp_bar = ""
+        bar_ticks = (self.hp / self.maxhp) * 100 / 2
+
+        while bar_ticks > 0:
+            hp_bar += "█"
+            bar_ticks -= 1
+        while len(hp_bar) < 50:
+            hp_bar += " "
+
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        current_hp = ""
+
+        if len(hp_string) < 9:
+            decreased = 9 - len(hp_string)
+
+            while decreased > 0:
+                current_hp += " "
+                decreased -= 1
+
+            current_hp += hp_string
+        else:
+            current_hp = hp_string
+
+        print("                       __________________________________________________")
+        print(self.name + "    "
+              + current_hp + " |" + hp_bar + "|")
 
     # Making UI for the game
     def get_stats(self):
@@ -133,5 +166,5 @@ class Person:
         else:
             current_mp = mp_string
 
-        print("                   _________________________            __________")
-        print(self.name + "    " + current_hp + "|" + hp_bar + "|   " + current_mp + "|" + mp_bar + "|")
+        print("                    _________________________             __________")
+        print(self.name + "    " + current_hp + " |" + hp_bar + "|   " + current_mp + " |" + mp_bar + "|")
