@@ -84,6 +84,15 @@ class Person:
             print("    " + str(i) + ".", item["item"].name + ":", item["item"].description, " (x5)")
             i += 1
 
+    def choose_target(self, enemies):
+        i = 1
+        print("\n" + " TARGET:")
+        for enemy in enemies:
+            print("        " + str(i) + ".", enemy.name)
+            i += 1
+        choice = int(input("    Choose target:")) - 1
+        return choice
+
     # Enemy HP Bar
     def get_enemy_stats(self):
         hp_bar = ""
